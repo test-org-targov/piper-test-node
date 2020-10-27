@@ -1,0 +1,55 @@
+general:
+  buildTool: npm
+  cfAppName: piper-test-node
+  cfCredentialsId: CF_P1941987819
+  githubTokenCredentialsId: GITHUB_CONTINUOUSDELIVERY_TOKEN
+  gitSshKeyCredentialsId: GitHub_Test_SSH
+  verbose: false
+  whitesourceProductName: 'SHC - Piper'
+  whitesourceProjectNames:
+    - 'piper-test-node - 1'
+  whitesourceUserTokenCredentialsId: wsUserToken
+  whitesourceProductToken: e30132d8e8f04a4c8be6332c75a0ff0580ab326fa7534540ad326e97a74d945b
+stages:
+  Acceptance:
+    uiVeri5ExecuteTests: false
+    sapCreateTraceabilityReport: false
+#    cfManifest: manifests/manifest-sbx.yml
+#    cfOrg: ICF
+#    cfSpace: sandbox
+#    deployType: 'blue-green'
+#    smokeTestScript: '.pipeline/testScript.sh'
+#    testServerUrl: 'https://continuousdelivery-piper-test-node-sbx.cfapps.sap.hana.ondemand.com/'
+  Release:
+    githubPublishRelease: false
+steps:
+  checksPublishResults:
+    eslint:
+      pattern: '**/eslint.jslint.xml'
+  checkmarxExecuteScan:
+    checkmarxCredentialsId: '5f9849c7-70af-4d1a-8d3e-a54dcb0db146'
+    checkmarxGroupId: 'b75c657f-55c7-483c-ac76-9589f378fa75'
+    checkmarxProject: 'piper-test-node'
+  # executePPMSWhitesourceComplianceCheck:
+  sapCheckPPMSCompliance:
+    ppmsBuildVersionCreation: true
+    ppmsChangeRequestUpload: true
+    ppmsCredentialsId: 'I7P'
+    ppmsID: '73554900100200011636'
+  uiVeri5ExecuteTests:
+    testOptions: './uiveri5/conf.js'
+  executeWhitesourceScan:
+    scanType: npm
+  githubPublishRelease:
+    apiUrl: https://github.wdf.sap.corp/api/v3
+    uploadUrl: https://github.wdf.sap.corp/api/uploads
+  handlePipelineStepErrors:
+    failOnError: true
+  influxWriteData:
+    influxServer: 'InfluxICBS'
+  testsPublishResults:
+    cobertura:
+      active: true
+    junit:
+      active: true
+      archive: true

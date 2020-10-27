@@ -1,0 +1,8 @@
+---
+applications:
+- name: piper-test-node
+  host: continuousdelivery-piper-test-node-sbx
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+  command: npm start
+  memory: 128M
+  instances: 1

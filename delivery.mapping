@@ -1,0 +1,7 @@
+{
+	"sirius_program": "PiperTest",
+	"sirius_delivery": "Feature1",
+	"jira_keys": [
+        "PIPER-4711",
+    ]
+}
